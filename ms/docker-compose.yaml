@@ -1,5 +1,26 @@
 version: "3.8"
 services:
+
+  ms-identitymanagement-neg-dev-rock-1:
+    image: plchavez98/ms-identitymanagement-neg:dev-rock-1
+    container_name: ms-identitymanagement-neg-dev-rock-1
+    environment:
+      CONTEXT_PATH: /api/dev-rock-1
+      MS_VERSION: dev-rock-1
+      PROFILE_ACTIVE: develop
+      CONFIG_SERVER_URI: http://ms-config-server:8888
+      VAULT_SCHEME: http
+      VAULT_HOST: devtools-vault-filesystem-1
+      VAULT_PORT: 8200
+      VAULT_AUTHENTICATION: TOKEN
+      VAULT_TOKEN: ${VAULT_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/dev-rock-1/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - gdmt-microservices-network
 networks:
   gdmt-microservices-network:
     external: true 
