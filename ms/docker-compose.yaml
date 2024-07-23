@@ -1,6 +1,18 @@
 version: "3.8"
 services:
 # cross-cutting services start
+  postgres:
+    image: postgres:12-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - gdmt_postgres_data:/var/lib/postgresql/data
+    networks:
+      - gdmt-microservices-network
   ms-eureka-server:
     image: plchavez98/ms-eureka-server:latest
     container_name: ms-eureka-server
@@ -84,6 +96,8 @@ services:
     networks:
       - gdmt-microservices-network
 # zuul server end
+volumes:
+  gdmt_postgres_data:
 networks:
   gdmt-microservices-network:
     external: true
