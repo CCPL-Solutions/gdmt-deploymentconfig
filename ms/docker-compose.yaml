@@ -1,9 +1,9 @@
 version: "3.8"
 services:
 # cross-cutting services start
-  postgres:
+  ms-postgres-server:
     image: postgres:12-alpine
-    container_name: postgres
+    container_name: ms-postgres-server
     ports:
       - "5432:5432"
     environment:
