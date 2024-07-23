@@ -17,7 +17,7 @@ services:
       ENVIRONMENT: develop
       GIT_BRANCH: master
       GIT_USERNAMER: pedro-chavezcastro
-      GIT_PASSWORD: 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
+      GIT_PASSWORD: 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
     networks:
       - gdmt-microservices-network
   ms-oauth2-server:
