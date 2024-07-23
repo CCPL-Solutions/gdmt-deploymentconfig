@@ -78,10 +78,8 @@ services:
       - ms-config-server
       - ms-oauth2-server-develop
       # depends services start
-
       - ms-identitymanagement-neg-dev-ccpl-1
-      
-              # depends services end
+      # depends services end
     networks:
       - gdmt-microservices-network
 # zuul server end
