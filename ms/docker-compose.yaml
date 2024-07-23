@@ -41,7 +41,28 @@ services:
 # cross-cutting services end
 
 # microservices start
-# microservices end
+
+  ms-identitymanagement-neg-develop:
+    image: plchavez98/ms-identitymanagement-neg:develop
+    container_name: ms-identitymanagement-neg-develop
+    environment:
+      CONTEXT_PATH: /api/develop
+      MS_VERSION: develop
+      PROFILE_ACTIVE: develop
+      CONFIG_SERVER_URI: http://ms-config-server:8888
+      VAULT_SCHEME: http
+      VAULT_HOST: devtools-vault-filesystem-1
+      VAULT_PORT: 8200
+      VAULT_AUTHENTICATION: TOKEN
+      VAULT_TOKEN: ${VAULT_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/develop/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - gdmt-microservices-network
+        # microservices end
 
 # zuul server start 
   ms-zuul-server:
@@ -57,7 +78,10 @@ services:
       - ms-config-server
       - ms-oauth2-server-develop
       # depends services start
-      # depends services end
+
+      - ms-identitymanagement-neg-develop
+      
+              # depends services end
     networks:
       - gdmt-microservices-network
 # zuul server end
