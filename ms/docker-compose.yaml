@@ -86,3 +86,4 @@ services:
 # zuul server end
 networks:
   gdmt-microservices-network:
+    external: true
