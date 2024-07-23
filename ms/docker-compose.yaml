@@ -46,7 +46,7 @@ services:
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
     depends_on:
-      - postgres
+      - ms-postgres-server
       - ms-eureka-server
       - ms-config-server
     networks:
@@ -74,7 +74,7 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - postgres
+      - ms-postgres-server
       - ms-eureka-server
       - ms-config-server
     networks:
