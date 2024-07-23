@@ -1,47 +1,63 @@
 version: "3.8"
 services:
-
-  ms-identitymanagement-neg-develop:
-    image: plchavez98/ms-identitymanagement-neg:develop
-    container_name: ms-identitymanagement-neg-develop
+# cross-cutting services start
+  ms-eureka-server:
+    image: plchavez98/ms-eureka-server:latest
+    container_name: ms-eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - gdmt-microservices-network
+  ms-config-server:
+    image: plchavez98/ms-config-server:latest
+    container_name: ms-config-server
+    ports:
+      - "8888:8888"
+    environment:
+      ENVIRONMENT: develop
+      GIT_BRANCH: master
+      GIT_USERNAMER: pedro-chavezcastro
+      GIT_PASSWORD: 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
+    networks:
+      - gdmt-microservices-network
+  ms-oauth2-server-develop:
+    image: plchavez98/ms-oauth2-server:develop
+    container_name: ms-oauth2-server-develop
     environment:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
       CONFIG_SERVER_URI: http://ms-config-server:8888
       VAULT_SCHEME: http
-      VAULT_HOST: devtools-vault-filesystem-1
+      VAULT_HOST: vault_filesystem
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/develop/actuator/health"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
+    depends_on: 
+      - ms-eureka-server
+      - ms-config-server
     networks:
       - gdmt-microservices-network
-        
-  ms-identitymanagement-neg-dev-rock-1:
-    image: plchavez98/ms-identitymanagement-neg:dev-rock-1
-    container_name: ms-identitymanagement-neg-dev-rock-1
+# cross-cutting services end
+
+# microservices start
+# microservices end
+
+# zuul server start 
+  ms-zuul-server:
+    image: plchavez98/ms-zuul-server:latest
+    container_name: ms-zuul-server
+    ports:
+      - "8090:8090"
     environment:
-      CONTEXT_PATH: /api/dev-rock-1
-      MS_VERSION: dev-rock-1
-      PROFILE_ACTIVE: develop
       CONFIG_SERVER_URI: http://ms-config-server:8888
-      VAULT_SCHEME: http
-      VAULT_HOST: devtools-vault-filesystem-1
-      VAULT_PORT: 8200
-      VAULT_AUTHENTICATION: TOKEN
-      VAULT_TOKEN: ${VAULT_TOKEN}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/dev-rock-1/actuator/health"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
+      PROFILE_ACTIVE: develop
+    depends_on: 
+      - ms-eureka-server
+      - ms-config-server
+      - ms-oauth2-server-develop
     networks:
       - gdmt-microservices-network
+# zuul server end
 networks:
   gdmt-microservices-network:
-    external: true 
