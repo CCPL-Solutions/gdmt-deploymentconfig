@@ -97,7 +97,7 @@ services:
       # depends services start
 
       - ms-identitymanagement-neg-develop
-              # depends services end
+      # depends services end
     networks:
       - gdmt-microservices-network
 # zuul server end
