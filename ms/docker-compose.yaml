@@ -98,6 +98,8 @@ services:
       - ms-eureka-server
       - ms-config-server
       - ms-oauth2-server-develop
+      # depends services start
+      # depends services end
     networks:
       - gdmt-microservices-network
 # zuul server end
