@@ -1,9 +1,22 @@
 version: "3.8"
 services:
 # cross-cutting services start
-  ms-postgres-server:
+  gdmt-ms-vault-server:
+    image: plchavez98/vault-filesystem:0.1
+    container_name: gdmt-ms-vault-server
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+      - VAULT_API_ADDR=http://127.0.0.1:8200
+    command: server -config=/vault/config/vault-config.json
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - gdmt-microservices-network
+  gdmt-ms-postgres-server:
     image: postgres:12-alpine
-    container_name: ms-postgres-server
+    container_name: gdmt-ms-postgres-server
     ports:
       - "5432:5432"
     environment:
@@ -13,16 +26,16 @@ services:
       - gdmt_postgres_data:/var/lib/postgresql/data
     networks:
       - gdmt-microservices-network
-  ms-eureka-server:
-    image: plchavez98/ms-eureka-server:latest
-    container_name: ms-eureka-server
+  gdmt-ms-eureka-server:
+    image: plchavez98/gdmt-ms-eureka-server:latest
+    container_name: gdmt-ms-eureka-server
     ports:
       - "8761:8761"
     networks:
       - gdmt-microservices-network
-  ms-config-server:
-    image: plchavez98/ms-config-server:latest
-    container_name: ms-config-server
+  gdmt-ms-config-server:
+    image: plchavez98/gdmt-ms-config-server:latest
+    container_name: gdmt-ms-config-server
     ports:
       - "8888:8888"
     environment:
@@ -32,39 +45,40 @@ services:
       GIT_PASSWORD: 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
     networks:
       - gdmt-microservices-network
-  ms-oauth2-server:
-    image: plchavez98/ms-oauth2-server:latest
-    container_name: ms-oauth2-server
+  gdmt-ms-oauth2-server:
+    image: plchavez98/gdmt-ms-oauth2-server:latest
+    container_name: gdmt-ms-oauth2-server
     environment:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       VAULT_SCHEME: http
-      VAULT_HOST: vault_filesystem
+      VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
     depends_on:
-      - ms-postgres-server
-      - ms-eureka-server
-      - ms-config-server
+      - gdmt-ms-vault-server
+      - gdmt-ms-postgres-server
+      - gdmt-ms-eureka-server
+      - gdmt-ms-config-server
     networks:
       - gdmt-microservices-network
 # cross-cutting services end
 
 # microservices start
         
-  ms-identitymanagement-neg-develop:
-    image: plchavez98/ms-identitymanagement-neg:develop
-    container_name: ms-identitymanagement-neg-develop
+  gdmt-ms-identitymanagement-neg-develop:
+    image: plchavez98/gdmt-ms-identitymanagement-neg:develop
+    container_name: gdmt-ms-identitymanagement-neg-develop
     environment:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       VAULT_SCHEME: http
-      VAULT_HOST: vault_filesystem
+      VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
@@ -74,29 +88,31 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - ms-postgres-server
-      - ms-eureka-server
-      - ms-config-server
+      - gdmt-ms-vault-server
+      - gdmt-ms-postgres-server
+      - gdmt-ms-eureka-server
+      - gdmt-ms-config-server
     networks:
       - gdmt-microservices-network
+
 # microservices end
 
 # zuul server start 
-  ms-zuul-server:
-    image: plchavez98/ms-zuul-server:latest
-    container_name: ms-zuul-server
+  gdmt-ms-zuul-server:
+    image: plchavez98/gdmt-ms-zuul-server:latest
+    container_name: gdmt-ms-zuul-server
     ports:
       - "8090:8090"
     environment:
-      CONFIG_SERVER_URI: http://ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       PROFILE_ACTIVE: develop
     depends_on: 
-      - ms-eureka-server
-      - ms-config-server
-      - ms-oauth2-server
+      - gdmt-ms-eureka-server
+      - gdmt-ms-config-server
+      - gdmt-ms-oauth2-server
       # depends services start
 
-      - ms-identitymanagement-neg-develop
+      - gdmt-ms-identitymanagement-neg-develop
       # depends services end
     networks:
       - gdmt-microservices-network
