@@ -68,7 +68,32 @@ services:
 # cross-cutting services end
 
 # microservices start
-        
+
+  gdmt-ms-retentionschedules-neg-develop:
+    image: plchavez98/gdmt-ms-retentionschedules-neg:develop
+    container_name: gdmt-ms-retentionschedules-neg-develop
+    environment:
+      CONTEXT_PATH: /api/develop
+      MS_VERSION: develop
+      PROFILE_ACTIVE: develop
+      CONFIG_SERVER_URI: http://ms-config-server:8888
+      VAULT_SCHEME: http
+      VAULT_HOST: vault_filesystem
+      VAULT_PORT: 8200
+      VAULT_AUTHENTICATION: TOKEN
+      VAULT_TOKEN: ${VAULT_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/develop/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      - ms-postgres-server
+      - ms-eureka-server
+      - ms-config-server
+    networks:
+      - gdmt-microservices-network
+                
   gdmt-ms-identitymanagement-neg-develop:
     image: plchavez98/gdmt-ms-identitymanagement-neg:develop
     container_name: gdmt-ms-identitymanagement-neg-develop
@@ -112,6 +137,8 @@ services:
       - gdmt-ms-oauth2-server
       # depends services start
 
+      - gdmt-ms-retentionschedules-neg-develop
+        
       - gdmt-ms-identitymanagement-neg-develop
       # depends services end
     networks:
