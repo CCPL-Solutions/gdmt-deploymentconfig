@@ -88,9 +88,10 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - ms-postgres-server
-      - ms-eureka-server
-      - ms-config-server
+      - gdmt-ms-vault-server
+      - gdmt-ms-postgres-server
+      - gdmt-ms-eureka-server
+      - gdmt-ms-config-server
     networks:
       - gdmt-microservices-network
                 
@@ -138,7 +139,6 @@ services:
       # depends services start
 
       - gdmt-ms-retentionschedules-neg-develop
-        
       - gdmt-ms-identitymanagement-neg-develop
       # depends services end
     networks:
