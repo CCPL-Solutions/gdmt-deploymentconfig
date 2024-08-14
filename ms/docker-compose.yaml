@@ -2,16 +2,19 @@ version: "3.8"
 services:
 # cross-cutting services start
   gdmt-ms-vault-server:
-    image: plchavez98/vault-filesystem:0.1
+    image: plchavez98/vault-filesystem:0.2
     container_name: gdmt-ms-vault-server
     ports:
       - "8200:8200"
     environment:
       - VAULT_ADDR=http://127.0.0.1:8200
       - VAULT_API_ADDR=http://127.0.0.1:8200
-    command: server -config=/vault/config/vault-config.json
+    command: server -config=/vault/config/vault-config.hcl
     cap_add:
       - IPC_LOCK
+    volumes:
+      - gdmt_vault_data:/vault/data
+    restart: always
     networks:
       - gdmt-microservices-network
   gdmt-ms-postgres-server:
@@ -24,6 +27,7 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - gdmt_postgres_data:/var/lib/postgresql/data
+    restart: always
     networks:
       - gdmt-microservices-network
   gdmt-ms-eureka-server:
@@ -31,6 +35,7 @@ services:
     container_name: gdmt-ms-eureka-server
     ports:
       - "8761:8761"
+    restart: always
     networks:
       - gdmt-microservices-network
   gdmt-ms-config-server:
@@ -43,6 +48,7 @@ services:
       GIT_BRANCH: master
       GIT_USERNAMER: pedro-chavezcastro
       GIT_PASSWORD: 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
+    restart: always
     networks:
       - gdmt-microservices-network
   gdmt-ms-oauth2-server:
@@ -63,6 +69,7 @@ services:
       - gdmt-ms-postgres-server
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
+    restart: always
     networks:
       - gdmt-microservices-network
 # cross-cutting services end
@@ -92,6 +99,7 @@ services:
       - gdmt-ms-postgres-server
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
+    restart: always
     networks:
       - gdmt-microservices-network
         
@@ -118,6 +126,7 @@ services:
       - gdmt-ms-postgres-server
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
+    restart: always
     networks:
       - gdmt-microservices-network
                 
@@ -144,6 +153,7 @@ services:
       - gdmt-ms-postgres-server
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
+    restart: always
     networks:
       - gdmt-microservices-network
 
@@ -169,11 +179,13 @@ services:
       - gdmt-ms-retentionschedules-neg-develop
       - gdmt-ms-identitymanagement-neg-develop
       # depends services end
+    restart: always
     networks:
       - gdmt-microservices-network
 # zuul server end
 volumes:
   gdmt_postgres_data:
+  gdmt_vault_data:
 networks:
   gdmt-microservices-network:
     external: true
