@@ -173,11 +173,8 @@ services:
       - gdmt-ms-config-server
       - gdmt-ms-oauth2-server
       # depends services start
-
-      - gdmt-ms-retentionschedules-neg-dev-ccpl-2
         
       - gdmt-ms-retentionschedules-neg-dev-ccpl-1
-        
       - gdmt-ms-retentionschedules-neg-develop
       - gdmt-ms-identitymanagement-neg-develop
       # depends services end
