@@ -1,0 +1,20 @@
+version: '3'
+services:
+    traefik:
+        image: traefik:v2.9.6
+        container_name: traefik
+        command:
+        - "--api.insecure=true"
+        - "--providers.docker=true"
+        - "--entrypoints.web.address=:80"
+        ports:
+        - "80:80"
+        - "8080:8080"
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+        - gdmt-microservices-network
+        restart: always
+networks:
+  gdmt-microservices-network:
+    external: true
