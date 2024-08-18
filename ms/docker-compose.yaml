@@ -150,6 +150,11 @@ services:
     environment:
       CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       PROFILE_ACTIVE: develop
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gdmtmszuulserver.rule=PathPrefix(`/apps`)"
+      - "traefik.http.middlewares.strip-apps-prefix.stripprefix.prefixes=/apps"
+      - "traefik.http.routers.gdmtmseurekaserver.middlewares=strip-apps-prefix"
     depends_on: 
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
