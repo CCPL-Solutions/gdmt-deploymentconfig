@@ -54,6 +54,9 @@ services:
       GIT_USERNAMER: pedro-chavezcastro
       GIT_PASSWORD: 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
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gdmtmsconfigserver.rule=PathPrefix(`/config-server`)"
     networks:
       - gdmt-microservices-network
   gdmt-ms-oauth2-server:
