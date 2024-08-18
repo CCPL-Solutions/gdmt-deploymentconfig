@@ -37,6 +37,7 @@ services:
       - "8761:8761"
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.gdmt-ms-eureka-server.rule=Path(`/eureka-server`)"
     networks:
       - gdmt-microservices-network
