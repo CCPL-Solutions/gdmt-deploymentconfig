@@ -53,6 +53,7 @@ services:
       GIT_BRANCH: master
       GIT_USERNAMER: pedro-chavezcastro
       GIT_PASSWORD: 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
+      SERVER_SERVLET_CONTEXT_PATH: /config-server
     restart: always
     labels:
       - "traefik.enable=true"
