@@ -3,10 +3,7 @@ services:
     traefik:
         image: traefik:v2.9.6
         container_name: traefik
-        command:
-        - "--api.insecure=true"
-        - "--providers.docker=true"
-        - "--providers.docker.exposedbydefault=false"
+        command: --api.insecure=true --providers.docker
         ports:
         - "80:80"
         - "8080:8080"
