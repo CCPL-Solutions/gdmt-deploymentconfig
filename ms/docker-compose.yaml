@@ -39,7 +39,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gdmtmseurekaserver.rule=PathPrefix(`/eureka-server`)"
-      - "traefik.http.services.app2.loadbalancer.server.port=8761"
+      - "traefik.http.services.gdmtmseurekaserver.loadbalancer.server.port=8761"
     networks:
       - gdmt-microservices-network
   gdmt-ms-config-server:
