@@ -35,17 +35,12 @@ services:
     container_name: gdmt-ms-eureka-server
     ports:
       - "8761:8761"
+    environment:
+      SERVER_SERVLET_CONTEXT_PATH: /eureka-server
     restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gdmtmseurekaserver.rule=PathPrefix(`/eureka-server`)"
-      - "traefik.http.services.gdmtmseurekaserver.loadbalancer.server.port=8761"
-      - "traefik.http.middlewares.strip-eureka-prefix.stripprefix.prefixes=/eureka-server"
-      - "traefik.http.routers.gdmtmseurekaserver.middlewares=strip-eureka-prefix"
-      - "traefik.http.middlewares.rewrite-static.redirectregex.regex=^/eureka-server(.*)"
-      - "traefik.http.middlewares.rewrite-static.redirectregex.replacement=/$1"
-      - "traefik.http.middlewares.rewrite-static.redirectregex.permanent=false"
-      - "traefik.http.routers.gdmtmseurekaserver.middlewares=strip-eureka-prefix,rewrite-static"
     networks:
       - gdmt-microservices-network
   gdmt-ms-config-server:
