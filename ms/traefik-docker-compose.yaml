@@ -15,6 +15,18 @@ services:
         networks:
         - gdmt-microservices-network
         restart: always
+    gdmt-ms-eureka-server:
+        image: plchavez98/gdmt-ms-eureka-server:latest
+        container_name: gdmt-ms-eureka-server
+        ports:
+            - "8761:8761"
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.gdmtmseurekaserver.rule=PathPrefix(`/eureka-server`)"
+            - "traefik.http.services.gdmtmseurekaserver.loadbalancer.server.port=8761"
+        networks:
+            - gdmt-microservices-network
 networks:
   gdmt-microservices-network:
     external: true
