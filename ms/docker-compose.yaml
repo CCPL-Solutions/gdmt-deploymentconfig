@@ -66,7 +66,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -91,7 +91,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -118,7 +118,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -147,7 +147,7 @@ services:
     ports:
       - "8090:8090"
     environment:
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       PROFILE_ACTIVE: develop
     depends_on: 
       - gdmt-ms-eureka-server
