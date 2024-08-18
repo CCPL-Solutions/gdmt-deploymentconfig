@@ -154,7 +154,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.gdmtmszuulserver.rule=PathPrefix(`/apps`)"
       - "traefik.http.middlewares.strip-apps-prefix.stripprefix.prefixes=/apps"
-      - "traefik.http.routers.gdmtmseurekaserver.middlewares=strip-apps-prefix"
+      - "traefik.http.routers.gdmtmszuulserver.middlewares=strip-apps-prefix"
     depends_on: 
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
