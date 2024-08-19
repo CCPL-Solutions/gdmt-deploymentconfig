@@ -4,6 +4,11 @@ services:
   gdmt-ms-vault-server:
     image: plchavez98/vault-filesystem:0.2
     container_name: gdmt-ms-vault-server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gdmtmsvaultserver.rule=PathPrefix(`/vault-server`)"
+      - "traefik.http.middlewares.strip-vault-server-prefix.stripprefix.prefixes=/apps"
+      - "traefik.http.routers.gdmtmsvaultserver.middlewares=strip-vault-server-prefix"
     ports:
       - "8200:8200"
     environment:
