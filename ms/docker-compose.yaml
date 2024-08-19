@@ -4,14 +4,11 @@ services:
   gdmt-ms-vault-server:
     image: plchavez98/vault-filesystem:0.2
     container_name: gdmt-ms-vault-server
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.gdmtmsvaultserver.rule=PathPrefix(`/vault-server`)"
     ports:
       - "8200:8200"
     environment:
-      - VAULT_ADDR=http://127.0.0.1:8200/vault-server
-      - VAULT_API_ADDR=http://127.0.0.1:8200/vault-server
+      - VAULT_ADDR=http://127.0.0.1:8200
+      - VAULT_API_ADDR=http://127.0.0.1:8200
     command: server -config=/vault/config/vault-config.hcl
     cap_add:
       - IPC_LOCK
