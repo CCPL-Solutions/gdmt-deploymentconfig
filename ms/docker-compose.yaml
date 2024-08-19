@@ -7,13 +7,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gdmtmsvaultserver.rule=PathPrefix(`/vault-server`)"
-      - "traefik.http.middlewares.strip-vault-server-prefix.stripprefix.prefixes=/apps"
-      - "traefik.http.routers.gdmtmsvaultserver.middlewares=strip-vault-server-prefix"
     ports:
       - "8200:8200"
     environment:
-      - VAULT_ADDR=http://127.0.0.1:8200
-      - VAULT_API_ADDR=http://127.0.0.1:8200
+      - VAULT_ADDR=http://127.0.0.1:8200/vault-server
+      - VAULT_API_ADDR=http://127.0.0.1:8200/vault-server
     command: server -config=/vault/config/vault-config.hcl
     cap_add:
       - IPC_LOCK
@@ -74,7 +72,7 @@ services:
       PROFILE_ACTIVE: develop
       CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
-      VAULT_HOST: gdmt-ms-vault-server
+      VAULT_HOST: gdmt-ms-vault-server/vault-server/vault-server
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
@@ -99,7 +97,7 @@ services:
       PROFILE_ACTIVE: develop
       CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
-      VAULT_HOST: gdmt-ms-vault-server
+      VAULT_HOST: gdmt-ms-vault-server/vault-server/vault-server
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
@@ -126,7 +124,7 @@ services:
       PROFILE_ACTIVE: develop
       CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
       VAULT_SCHEME: http
-      VAULT_HOST: gdmt-ms-vault-server
+      VAULT_HOST: gdmt-ms-vault-server/vault-server/vault-server
       VAULT_PORT: 8200
       VAULT_AUTHENTICATION: TOKEN
       VAULT_TOKEN: ${VAULT_TOKEN}
