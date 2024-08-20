@@ -35,12 +35,7 @@ services:
     container_name: gdmt-ms-eureka-server
     ports:
       - "8761:8761"
-    environment:
-      SERVER_SERVLET_CONTEXT_PATH: /eureka-server
     restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.gdmtmseurekaserver.rule=PathPrefix(`/eureka-server`)"
     networks:
       - gdmt-microservices-network
   gdmt-ms-config-server:
@@ -53,11 +48,7 @@ services:
       GIT_BRANCH: master
       GIT_USERNAMER: pedro-chavezcastro
       GIT_PASSWORD: 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
-      SERVER_SERVLET_CONTEXT_PATH: /config-server
     restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.gdmtmsconfigserver.rule=PathPrefix(`/config-server`)"
     networks:
       - gdmt-microservices-network
   gdmt-ms-oauth2-server:
@@ -67,7 +58,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -92,7 +83,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -119,7 +110,7 @@ services:
       CONTEXT_PATH: /api/develop
       MS_VERSION: develop
       PROFILE_ACTIVE: develop
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       VAULT_SCHEME: http
       VAULT_HOST: gdmt-ms-vault-server
       VAULT_PORT: 8200
@@ -146,15 +137,10 @@ services:
     image: plchavez98/gdmt-ms-zuul-server:latest
     container_name: gdmt-ms-zuul-server
     ports:
-      - "8090:8090"
+      - "80:8090"
     environment:
-      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888/config-server
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
       PROFILE_ACTIVE: develop
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.gdmtmszuulserver.rule=PathPrefix(`/apps`)"
-      - "traefik.http.middlewares.strip-apps-prefix.stripprefix.prefixes=/apps"
-      - "traefik.http.routers.gdmtmszuulserver.middlewares=strip-apps-prefix"
     depends_on: 
       - gdmt-ms-eureka-server
       - gdmt-ms-config-server
