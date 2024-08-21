@@ -31,7 +31,7 @@ services:
     networks:
       - gdmt-microservices-network
   gdmt-ms-eureka-server:
-    image: plchavez98/gdmt-ms-eureka-server:latest
+    image: plchavez98/gdmt-ms-eureka-server:develop
     container_name: gdmt-ms-eureka-server
     ports:
       - "8761:8761"
@@ -39,7 +39,7 @@ services:
     networks:
       - gdmt-microservices-network
   gdmt-ms-config-server:
-    image: plchavez98/gdmt-ms-config-server:latest
+    image: plchavez98/gdmt-ms-config-server:develop
     container_name: gdmt-ms-config-server
     ports:
       - "8888:8888"
@@ -52,7 +52,7 @@ services:
     networks:
       - gdmt-microservices-network
   gdmt-ms-oauth2-server:
-    image: plchavez98/gdmt-ms-oauth2-server:latest
+    image: plchavez98/gdmt-ms-oauth2-server:develop
     container_name: gdmt-ms-oauth2-server
     environment:
       CONTEXT_PATH: /api/develop
@@ -134,7 +134,7 @@ services:
 
 # zuul server start 
   gdmt-ms-zuul-server:
-    image: plchavez98/gdmt-ms-zuul-server:latest
+    image: plchavez98/gdmt-ms-zuul-server:develop
     container_name: gdmt-ms-zuul-server
     ports:
       - "80:8090"
