@@ -1,0 +1,19 @@
+services:
+  gdmt-ms-postgres-server:
+    image: postgres:12-alpine
+    container_name: gdmt-ms-postgres-server
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - gdmt_postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - gdmt-microservices-network
+volumes:
+  gdmt_postgres_data:
+networks:
+  gdmt-microservices-network:
+    external: true

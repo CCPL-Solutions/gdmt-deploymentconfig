@@ -1,0 +1,12 @@
+services:
+  gdmt-ms-eureka-server:
+    image: plchavez98/gdmt-ms-eureka-server:latest
+    container_name: gdmt-ms-eureka-server
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - gdmt-microservices-network
+networks:
+  gdmt-microservices-network:
+    external: true

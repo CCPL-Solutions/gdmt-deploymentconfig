@@ -1,0 +1,17 @@
+services:
+  gdmt-ms-config-server:
+    image: plchavez98/gdmt-ms-config-server:latest
+    container_name: gdmt-ms-config-server
+    ports:
+      - "8888:8888"
+    environment:
+      ENVIRONMENT: develop
+      GIT_BRANCH: master
+      GIT_USERNAMER: ${GIT_USERNAME}
+      GIT_PASSWORD: ${GIT_PASSWORD}
+    restart: always
+    networks:
+      - gdmt-microservices-network
+networks:
+  gdmt-microservices-network:
+    external: true
