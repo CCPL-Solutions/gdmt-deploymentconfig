@@ -1,9 +1,12 @@
 services:
-  gdmt-ms-zipkin-server:
-    image: openzipkin/zipkin
-    container_name: gdmt-ms-zipkin-server
+  gdmt-ms-zuul-server:
+    image: plchavez98/gdmt-ms-zuul-server:latest
+    container_name: gdmt-ms-zuul-server
     ports:
-      - "9411:9411"
+      - "80:8090"
+    environment:
+      CONFIG_SERVER_URI: http://gdmt-ms-config-server:8888
+      PROFILE_ACTIVE: develop
     restart: always
     networks:
       - gdmt-microservices-network
